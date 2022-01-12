@@ -190,10 +190,12 @@ class SqlTable:
                isinstance(value, bytes):
                 sqls.append("{}=?".format(key))
                 paras.append(value)
-            elif isinstance(value, tuple) and len(value) == 2:
-                if value[0] in ['+', '-', '*', '/']:
-                    sqls.append("{}={}{}?".format(key, key, value[0]))
+            elif isinstance(value, tuple) and len(value) == 2 and isinstance(value[0], str):
+                if value[0][-1] == '=':
+                    sqls.append("{}={}{}?".format(key, key, value[0][:-1]))
                     paras.append(value[1])
+                else:
+                    sql.append("{}={}?".format(key, key, value[0]))
         return ', '.join(sqls), paras
 
     def update_conds(self, cond_dict, update_dict, commit=None):
