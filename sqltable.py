@@ -1,4 +1,4 @@
-#!/bin/python
+#!/usr/bin/python3
 from collections import Iterable
 from numbers import Number
 
